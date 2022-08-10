@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Footer } from "../../components/footer/Footer";
 import { Header } from "../../components/header/Header";
-import { Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 import { CustomInputField } from "../../components/customInputField/CustomInputField";
+import { postUser } from "../../helpers/axiosHelper.js";
 
 const AdminRegistration = () => {
   const [form, setForm] = useState({});
+  const [response, setResponse] = useState({
+    status: "error",
+    message: "test",
+  });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -16,9 +21,14 @@ const AdminRegistration = () => {
     });
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-
+    const { confirmPassword, ...rest } = form;
+    if (confirmPassword !== rest.password) {
+      return alert("password do not match");
+    }
+    const result = await postUser(form);
+    setResponse(result);
     console.log(form);
   };
 
@@ -86,6 +96,13 @@ const AdminRegistration = () => {
         <div className="form">
           <Form onSubmit={handleOnSubmit}>
             <h1>New Admin Registration</h1>
+            {response.message && (
+              <Alert
+                variant={response.status === "success" ? "success" : "danger"}
+              >
+                {response.message}
+              </Alert>
+            )}
             <hr />
 
             {fields.map((item, i) => (

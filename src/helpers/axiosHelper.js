@@ -28,3 +28,12 @@ export const postUser = (data) => {
   };
   return apiProcessor(option);
 };
+
+export const emailVerifyAdminUser = (data) => {
+  const option = {
+    method: "patch",
+    url: adminUserEP + "/verify-email",
+    data,
+  };
+  return apiProcessor(option);
+};

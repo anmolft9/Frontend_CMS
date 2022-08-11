@@ -7,10 +7,7 @@ import { postUser } from "../../helpers/axiosHelper.js";
 
 const AdminRegistration = () => {
   const [form, setForm] = useState({});
-  const [response, setResponse] = useState({
-    status: "error",
-    message: "test",
-  });
+  const [response, setResponse] = useState({});
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +24,7 @@ const AdminRegistration = () => {
     if (confirmPassword !== rest.password) {
       return alert("password do not match");
     }
-    const result = await postUser(form);
+    const result = await postUser(rest);
     setResponse(result);
     console.log(form);
   };
